@@ -1,0 +1,10 @@
+mos=1234567890
+inpol=0987654321
+first_name=Ivanldfldlfldfl
+last_name=Ivvkdkfkdfkdfk
+passport_code=AA1234567
+country=Russia
+email=ivanov@kdfkdkfdkfkdfk
+radio_choice=1
+date_of_birth=1990-05-15
+guardian_name=Petrov Ivan

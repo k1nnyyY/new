@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  bot:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: telegram_bot
+    restart: always
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - parser
+    networks:
+      - bot_network
+
+  parser:
+    build:
+      context: ./parser
+      dockerfile: Dockerfile
+    container_name: parser_service
+    restart: always
+    volumes:
+      - ./parser:/app
+    networks:
+      - bot_network
+
+  frontend:
+    build:
+      context: ./registration-form
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - bot_network
+
+networks:
+  bot_network:
+    driver: bridge
