@@ -23,7 +23,7 @@ services:
     container_name: parser_service
     restart: always
     depends_on:
-    - selenium_chrome
+    - selenium
     volumes:
       - ./parser:/app
       - data:/app/shared_data # Общий volume для файла data.txt
