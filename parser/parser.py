@@ -7,6 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 # Настройка драйвера для подключения к удалённому Selenium-контейнеру
 
 
+DATA_FILE_PATH = "/app/shared_data/data.txt"
+
 def setup_driver():
     # URL сервиса Selenium в Docker Compose
     selenium_url = "http://selenium:4444/wd/hub"
@@ -36,7 +38,7 @@ def human_typing(element, text):
 
 def fill_form(driver):
     # Открываем файл с данными
-    with open("data.txt", "r") as file:
+    with open(DATA_FILE_PATH, "r") as file:
         data = {}
         for line in file:
             key, value = line.strip().split('=')

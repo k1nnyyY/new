@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   bot:
@@ -9,6 +9,7 @@ services:
     restart: always
     volumes:
       - ./backend:/app
+      - data:/app/shared_data # Общий volume для файла data.txt
     depends_on:
       - parser
     networks:
@@ -22,8 +23,7 @@ services:
     restart: always
     volumes:
       - ./parser:/app
-    depends_on:
-      - selenium
+      - data:/app/shared_data # Общий volume для файла data.txt
     networks:
       - bot_network
 
@@ -47,6 +47,10 @@ services:
       - SE_OPTS="--headless"
     networks:
       - bot_network
+
+volumes:
+  data: # Определение общего volume для файла data.txt
+    driver: local
 
 networks:
   bot_network:

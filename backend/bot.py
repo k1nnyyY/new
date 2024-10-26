@@ -7,20 +7,19 @@ import subprocess
 
 API_TOKEN = '7707557872:AAG--9m0u1aAsDjW_Vaijm-8c9tYlJ4Qwbw'
 PASSWORD_FILE = 'passwords.txt'
-DATA_FILE_PATH = '../parser/data.txt'  # Путь к data.txt для парсера
+DATA_FILE_PATH = "/app/shared_data/data.txt"
 DEFAULT_PASSWORD_HASH = hashlib.sha256('666'.encode()).hexdigest()
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
-# Хранилище состояния регистрации пользователей
+
 registered_users = set()
 
-# Функция для хэширования паролей
+
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-# Функция для инициализации файла с паролями
 def init_password_file():
     if not os.path.exists(PASSWORD_FILE):
         with open(PASSWORD_FILE, 'w') as file:
