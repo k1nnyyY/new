@@ -4,19 +4,36 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# Настройка драйвера для Selenium
+# Настройка драйвера для подключения к удалённому Selenium-контейнеру
+
+
 def setup_driver():
-    driver = webdriver.Chrome()  # Не забудь скачать и указать путь к chromedriver
-    driver.get("http://localhost:3001")  # Заменить на URL фронтенда
+    # URL сервиса Selenium в Docker Compose
+    selenium_url = "http://selenium:4444/wd/hub"
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")  # Запуск без интерфейса
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Remote(
+        command_executor=selenium_url,
+        options=chrome_options
+    )
+    # Подключаемся к frontend по имени сервиса
+    driver.get("http://frontend_app:3000")
     return driver
 
 # Функция для симуляции человеческого ввода
+
+
 def human_typing(element, text):
     for char in text:
         element.send_keys(char)
         time.sleep(0.2)
 
 # Функция для заполнения формы
+
+
 def fill_form(driver):
     # Открываем файл с данными
     with open("data.txt", "r") as file:
@@ -48,7 +65,8 @@ def fill_form(driver):
     human_typing(email_field, data['email'])
 
     # Выбор радио-кнопки
-    radio_button = driver.find_element(By.XPATH, f"//input[@type='radio' and @value='{data['radio_choice']}']")
+    radio_button = driver.find_element(
+        By.XPATH, f"//input[@type='radio' and @value='{data['radio_choice']}']")
     radio_button.click()
 
     # Ввод даты рождения
@@ -68,12 +86,16 @@ def fill_form(driver):
     submit_button.click()
 
 # Основная функция для запуска скрипта
+
+
 def main():
     driver = setup_driver()
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "mos")))
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.NAME, "mos")))
     fill_form(driver)
     time.sleep(5)
     driver.quit()
+
 
 if __name__ == "__main__":
     main()
