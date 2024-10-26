@@ -12,6 +12,7 @@ services:
       - data:/app/shared_data # Общий volume для файла data.txt
     depends_on:
       - parser
+      - selenium
     networks:
       - bot_network
 
@@ -43,10 +44,14 @@ services:
     container_name: selenium_chrome
     ports:
       - "4444:4444"
-    environment:
-      - SE_OPTS="--headless"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     networks:
       - bot_network
+
 
 volumes:
   data: # Определение общего volume для файла data.txt
