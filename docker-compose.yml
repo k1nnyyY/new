@@ -22,11 +22,12 @@ services:
       dockerfile: Dockerfile
     container_name: parser_service
     restart: always
-    depends_on:
-    - selenium
     volumes:
       - ./parser:/app
       - ./shared_data:/app/shared_data
+    depends_on:
+      selenium_chrome:
+        condition: service_healthy
     networks:
       - bot_network
 
@@ -41,21 +42,18 @@ services:
     networks:
       - bot_network
 
-  selenium:
+  selenium_chrome:
     image: selenium/standalone-chrome
     container_name: selenium_chrome
     ports:
       - "4444:4444"
-    environment:
-      - JAVA_OPTS=-Dotel.traces.exporter=none
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
     networks:
       - bot_network
-
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 volumes:
   data: # Определение общего volume для файла data.txt
