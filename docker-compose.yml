@@ -22,9 +22,12 @@ services:
       dockerfile: Dockerfile
     container_name: parser_service
     restart: always
+    depends_on:
+    - selenium_chrome
     volumes:
       - ./parser:/app
       - data:/app/shared_data # Общий volume для файла data.txt
+      - ./shared_data:/app/shared_data
     networks:
       - bot_network
 
