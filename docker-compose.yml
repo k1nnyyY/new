@@ -26,7 +26,6 @@ services:
     - selenium
     volumes:
       - ./parser:/app
-      - data:/app/shared_data # Общий volume для файла data.txt
       - ./shared_data:/app/shared_data
     networks:
       - bot_network
