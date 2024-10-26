@@ -44,6 +44,8 @@ services:
     container_name: selenium_chrome
     ports:
       - "4444:4444"
+    environment:
+      - JAVA_OPTS=-Dotel.traces.exporter=none
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub"]
       interval: 30s
