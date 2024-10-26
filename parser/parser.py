@@ -11,7 +11,7 @@ DATA_FILE_PATH = "/app/shared_data/data.txt"
 
 def setup_driver():
     # URL сервиса Selenium в Docker Compose
-    selenium_url = "http://selenium:4444/wd/hub"
+    selenium_url = "http://selenium_chrome:4444/wd/hub"
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")  # Запуск без интерфейса
     chrome_options.add_argument("--no-sandbox")
